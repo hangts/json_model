@@ -7,7 +7,7 @@ import 'build_runner.dart' as br;
 
 // Dart file template
 const tpl =
-    "import 'package:json_annotation/json_annotation.dart';\n%t\npart '%s.g.dart';\n\n@JsonSerializable()\nclass %s {\n  %s();\n\n  %s\n  factory %s.fromJson(Map<String,dynamic> json) => _\$%sFromJson(json);\n  Map<String, dynamic> toJson() => _\$%sToJson(this);\n}\n";
+    "// ignore_for_file: file_names, non_constant_identifier_names\nimport 'package:json_annotation/json_annotation.dart';\n%t\npart '%s.g.dart';\n\n@JsonSerializable()\nclass %s {\n  %s();\n\n  %s\n  factory %s.fromJson(Map<String,dynamic> json) => _\$%sFromJson(json);\n  Map<String, dynamic> toJson() => _\$%sToJson(this);\n}\n";
 
 void run(List<String> args) {
   String? src;
@@ -49,11 +49,11 @@ void run(List<String> args) {
 }
 
 bool generateModelClass(
-    String srcDir,
-    String distDir,
-    String tag, {
-      required bool nullable,
-    }) {
+  String srcDir,
+  String distDir,
+  String tag, {
+  required bool nullable,
+}) {
   const metaTag = "@meta";
   if (srcDir.endsWith("/")) srcDir = srcDir.substring(0, srcDir.length - 1);
   if (distDir.endsWith("/")) distDir = distDir.substring(0, distDir.length - 1);
@@ -129,7 +129,7 @@ bool generateModelClass(
         if (key.startsWith("_")) return;
         if (key.startsWith("@")) {
           if (comments[v] != null) {
-            _writeComments(comments[v],fields);
+            _writeComments(comments[v], fields);
           }
           fields.write(key);
           fields.write(" ");
@@ -145,7 +145,7 @@ bool generateModelClass(
               !notNull && (optionalField || _nullable);
 
           if (comments[key] != null) {
-            _writeComments(comments[key],fields);
+            _writeComments(comments[key], fields);
           }
           if (!shouldAppendOptionalFlag) {
             fields.write('late ');
@@ -192,8 +192,8 @@ bool generateModelClass(
   return indexFile.isNotEmpty;
 }
 
-_writeComments(dynamic comments,StringBuffer sb){
-  final arr='$comments'.replaceAll('\r', '').split('\n');
+_writeComments(dynamic comments, StringBuffer sb) {
+  final arr = '$comments'.replaceAll('\r', '').split('\n');
   arr.forEach((element) {
     sb.writeln('// $element');
     sb.write('  ');
